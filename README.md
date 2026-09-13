@@ -10,7 +10,7 @@ A minimal, fully client-side web app to combine multiple PDF files into one. Fil
 - Merge PDFs and photos together in the chosen order and download `merged.pdf`
 - No server, no upload, no build step
 
-> On phones/tablets, **Add photos** asks the device for images, so iOS can offer its Photos library alongside its own file-picker choices. A browser cannot force a specific iOS album or remove the Files option. Only JPEG and PNG are embedded; formats like HEIC or WebP are skipped — most devices export photos as JPEG on selection.
+> On phones/tablets, **Add photos** opens the native photo picker (camera roll / Photos). Only JPEG and PNG are embedded; formats like HEIC or WebP are skipped — most devices export photos as JPEG on selection.
 
 ## Run locally
 
