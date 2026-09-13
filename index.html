@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Merge PDF</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="app__header">
+      <h1>Merge PDF</h1>
+      <p class="app__tagline">Combine multiple PDFs into one — right in your browser. Nothing is uploaded.</p>
+    </header>
+
+    <section
+      id="dropzone"
+      class="dropzone"
+      aria-label="Add PDF files"
+      tabindex="0"
+    >
+      <p class="dropzone__prompt">Drag &amp; drop PDF files here</p>
+      <p class="dropzone__or">or</p>
+      <button type="button" id="browseBtn" class="btn btn--secondary">Choose files</button>
+      <input type="file" id="fileInput" accept="application/pdf" multiple hidden />
+    </section>
+
+    <ul id="fileList" class="file-list" aria-live="polite"></ul>
+
+    <footer class="app__actions">
+      <button type="button" id="mergeBtn" class="btn btn--primary" disabled>
+        Merge &amp; download
+      </button>
+      <button type="button" id="clearBtn" class="btn btn--ghost" disabled>
+        Clear all
+      </button>
+    </footer>
+
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+  </main>
+
+  <!-- pdf-lib: client-side PDF manipulation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
