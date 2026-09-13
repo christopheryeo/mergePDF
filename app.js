@@ -11,7 +11,9 @@
 
   const dropzone = document.getElementById("dropzone");
   const fileInput = document.getElementById("fileInput");
+  const imageInput = document.getElementById("imageInput");
   const browseBtn = document.getElementById("browseBtn");
+  const addPhotosBtn = document.getElementById("addPhotosBtn");
   const fileListEl = document.getElementById("fileList");
   const mergeBtn = document.getElementById("mergeBtn");
   const clearBtn = document.getElementById("clearBtn");
@@ -19,23 +21,31 @@
 
   // ---- File intake -------------------------------------------------------
 
+  // Returns "pdf", "image", or null for unsupported files.
+  function kindOf(file) {
+    const name = file.name.toLowerCase();
+    if (file.type === "application/pdf" || name.endsWith(".pdf")) return "pdf";
+    if (file.type === "image/jpeg" || file.type === "image/png") return "image";
+    if (/\.(jpe?g|png)$/.test(name)) return "image";
+    return null;
+  }
+
   function addFiles(fileArray) {
-    const pdfs = Array.from(fileArray).filter(
-      (f) => f.type === "application/pdf" || f.name.toLowerCase().endsWith(".pdf")
-    );
-    const rejected = fileArray.length - pdfs.length;
-    files = files.concat(pdfs);
+    const accepted = Array.from(fileArray).filter((f) => kindOf(f) !== null);
+    const rejected = fileArray.length - accepted.length;
+    files = files.concat(accepted);
     render();
     if (rejected > 0) {
-      setStatus(`Skipped ${rejected} non-PDF file(s).`, "error");
+      setStatus(`Skipped ${rejected} unsupported file(s). Only PDFs and JPEG/PNG photos are supported.`, "error");
     } else {
       setStatus("");
     }
   }
 
-  browseBtn.addEventListener("click", () => fileInput.click());
+  browseBtn.addEventListener("click", (e) => { e.stopPropagation(); fileInput.click(); });
+  addPhotosBtn.addEventListener("click", (e) => { e.stopPropagation(); imageInput.click(); });
   dropzone.addEventListener("click", (e) => {
-    if (e.target === browseBtn) return;
+    if (e.target === browseBtn || e.target === addPhotosBtn) return;
     fileInput.click();
   });
   dropzone.addEventListener("keydown", (e) => {
@@ -47,6 +57,10 @@
   fileInput.addEventListener("change", () => {
     addFiles(fileInput.files);
     fileInput.value = ""; // allow re-selecting the same file
+  });
+  imageInput.addEventListener("change", () => {
+    addFiles(imageInput.files);
+    imageInput.value = "";
   });
 
   // Drag & drop
@@ -99,9 +113,16 @@
       const merged = await PDFDocument.create();
       for (const file of files) {
         const bytes = await file.arrayBuffer();
-        const doc = await PDFDocument.load(bytes);
-        const pages = await merged.copyPages(doc, doc.getPageIndices());
-        pages.forEach((p) => merged.addPage(p));
+        if (kindOf(file) === "image") {
+          const isPng = file.type === "image/png" || /\.png$/i.test(file.name);
+          const img = isPng ? await merged.embedPng(bytes) : await merged.embedJpg(bytes);
+          const page = merged.addPage([img.width, img.height]);
+          page.drawImage(img, { x: 0, y: 0, width: img.width, height: img.height });
+        } else {
+          const doc = await PDFDocument.load(bytes);
+          const pages = await merged.copyPages(doc, doc.getPageIndices());
+          pages.forEach((p) => merged.addPage(p));
+        }
       }
       const mergedBytes = await merged.save();
       download(mergedBytes, "merged.pdf");
@@ -133,9 +154,11 @@
     files.forEach((file, i) => {
       const li = document.createElement("li");
       li.className = "file-item";
+      const tag = kindOf(file) === "image" ? "IMG" : "PDF";
       li.innerHTML = `
         <span class="file-item__index">${i + 1}</span>
         <span class="file-item__name" title="${escapeHtml(file.name)}">${escapeHtml(file.name)}</span>
+        <span class="file-item__tag">${tag}</span>
         <span class="file-item__size">${formatSize(file.size)}</span>
         <span class="file-item__controls">
           <button type="button" class="btn btn--icon" data-act="up" ${i === 0 ? "disabled" : ""} aria-label="Move up">↑</button>

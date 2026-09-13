@@ -5,9 +5,12 @@ A minimal, fully client-side web app to combine multiple PDF files into one. Fil
 ## Features (skeleton)
 
 - Drag & drop or browse to add PDFs
+- **Add photos** — pick images from the device (JPEG/PNG); each becomes a full page in the merged PDF
 - Reorder files (↑ / ↓) and remove individual files
-- Merge in the chosen order and download `merged.pdf`
+- Merge PDFs and photos together in the chosen order and download `merged.pdf`
 - No server, no upload, no build step
+
+> On phones/tablets, **Add photos** opens the native photo picker (camera roll / Photos). Only JPEG and PNG are embedded; formats like HEIC or WebP are skipped — most devices export photos as JPEG on selection.
 
 ## Run locally
 
