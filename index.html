@@ -25,10 +25,10 @@
           <p class="dropzone__help">PDF, JPEG or PNG · multiple files welcome</p>
           <div class="dropzone__buttons">
             <button type="button" id="browseBtn" class="btn btn--secondary">Choose PDFs</button>
-            <button type="button" id="addPhotosBtn" class="btn btn--text">Take a photo</button>
+            <button type="button" id="addPhotosBtn" class="btn btn--text">Add photos</button>
           </div>
           <input type="file" id="fileInput" accept="application/pdf" multiple hidden />
-          <input type="file" id="imageInput" accept="image/*" capture="environment" hidden aria-label="Take a photo with your device camera" />
+          <input type="file" id="imageInput" accept="image/*" multiple hidden aria-label="Choose photos from your device" />
         </section>
         <div class="queue-heading"><h2>Your merge queue</h2><span id="fileCount">No files yet</span></div>
         <ul id="fileList" class="file-list" aria-live="polite"></ul>
