@@ -1,0 +1,8 @@
+{
+  "name": "merge-pdf",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "rm -rf build && mkdir build && cp index.html app.js styles.css build/"
+  }
+}
