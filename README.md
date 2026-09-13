@@ -5,12 +5,12 @@ A minimal, fully client-side web app to combine multiple PDF files into one. Fil
 ## Features (skeleton)
 
 - Drag & drop or browse to add PDFs
-- **Take a photo** — open the device camera for a new JPEG/PNG image; it becomes a full page in the merged PDF
+- **Take a photo** — use an in-page live camera preview to capture a new JPEG image; it becomes a full page in the merged PDF
 - Reorder files (↑ / ↓) and remove individual files
 - Merge PDFs and photos together in the chosen order and download `merged.pdf`
 - No server, no upload, no build step
 
-> On phones/tablets, **Take a photo** requests the rear camera. Browser support varies by device, but this cannot browse existing iOS albums. Only JPEG and PNG are embedded; formats like HEIC or WebP are skipped.
+> On phones/tablets, **Take a photo** requests the rear camera and asks permission before showing a live preview. This cannot browse existing iOS albums. Captures are saved as JPEGs; selected PDF pages and PNG images remain supported.
 
 ## Run locally
 
