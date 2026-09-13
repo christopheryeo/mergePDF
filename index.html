@@ -19,10 +19,14 @@
       aria-label="Add PDF files"
       tabindex="0"
     >
-      <p class="dropzone__prompt">Drag &amp; drop PDF files here</p>
+      <p class="dropzone__prompt">Drag &amp; drop PDFs or photos here</p>
       <p class="dropzone__or">or</p>
-      <button type="button" id="browseBtn" class="btn btn--secondary">Choose files</button>
+      <div class="dropzone__buttons">
+        <button type="button" id="browseBtn" class="btn btn--secondary">Choose PDFs</button>
+        <button type="button" id="addPhotosBtn" class="btn btn--secondary">Add photos</button>
+      </div>
       <input type="file" id="fileInput" accept="application/pdf" multiple hidden />
+      <input type="file" id="imageInput" accept="image/jpeg,image/png" multiple hidden />
     </section>
 
     <ul id="fileList" class="file-list" aria-live="polite"></ul>
